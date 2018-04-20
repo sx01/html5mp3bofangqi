@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+
+
+
+        /*!
+    SKPlayer
+ */
+        #skPlayer {
+            width: 100%;
+
+            position: relative;
+            font-family: Arial,Helvetica,sans-serif;
+
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            cursor: default;
+            background-color: #FFF;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
+        #skPlayer * {
+            margin: 0;
+            padding: 0;
+            box-sizing: content-box;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box; }
+        #skPlayer *::before {
+            box-sizing: content-box;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box; }
+        #skPlayer *::after {
+            box-sizing: content-box;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box; }
+
+
+
+        #skPlayer .skPlayer-play-btn {
+            display: block;
+            width: 30px;
+            height: 30px;
+            background-color: #D94240;
+            border-radius: 50%;
+            position: absolute;
+            overflow: hidden;
+            line-height: 30px;
+            text-align: center;
+            color: #fff;
+            top: 25px;
+            left: 20px;
+            transform: translate(-50%, -50%) translateZ(0);
+            -webkit-transform: translate(-50%, -50%) translateZ(0);
+            -moz-transform: translate(-50%, -50%) translateZ(0);
+            -ms-transform: translate(-50%, -50%) translateZ(0);
+            z-index: 2;
+            transition: 0.7s;
+            -webkit-transition: 0.7s;
+            -moz-transition: 0.7s; }
+
+
+
+
+        #skPlayer .skPlayer-control {
+
+
+            padding-top:15px;
+            padding-bottom:15px;
+            background-color: transparent;
+
+            border-radius: 0 7px 7px 0;
+            position: relative;
+            z-index: 2;
+            text-align: left;
+            padding-left: 50px;
+            padding-right: 260px;
+        }
+        #skPlayer .skPlayer-control p {
+            line-height: 1.2;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis; }
+
+        #skPlayer .skPlayer-control > .skPlayer-percent {
+            width: 100%;
+            height: 6px;
+            background-color: #EBEBF2;
+            margin: 9px 0;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+            min-width: 150px;
+        }
+        #skPlayer .skPlayer-control > .skPlayer-percent .skPlayer-line {
+            width: 0;
+            height: 100%;
+            background-color: #D94240;
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 2; }
+        #skPlayer .skPlayer-control > .skPlayer-percent .skPlayer-line-loading {
+            width: 0;
+            height: 100%;
+            background-color: #D3D3E0;
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 1;
+            transition: 0.7s;
+            -webkit-transition: 0.7s;
+            -moz-transition: 0.7s;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            -moz-transform: translateZ(0);
+            -ms-transform: translateZ(0); }
+        #skPlayer .skPlayer-control .skPlayer-time {
+            font-size: 15px;
+            color: #666;
+            position: absolute;
+            top: 16px;
+            right: 160px;
+        }
+        #skPlayer .skPlayer-control .skPlayer-volume {
+            width: 120px;
+            height: 14px;
+            top: 18px;
+            right: 0px;
+            position: absolute;
+            margin: 1px 10px 0 0; }
+        #skPlayer .skPlayer-control .skPlayer-volume .skPlayer-icon {
+            display: block;
+            width: 5px;
+            height: 6px;
+            position: absolute;
+            background-color: #6A6B6F;
+            top: 4px;
+            left: -20px;
+            cursor: pointer; }
+        #skPlayer .skPlayer-control .skPlayer-volume .skPlayer-icon.skPlayer-quiet::before {
+            display: block; }
+        #skPlayer .skPlayer-control .skPlayer-volume .skPlayer-icon::before {
+            content: '';
+            display: none;
+            width: 2px;
+            height: 22px;
+            transform: rotate(58deg);
+            -webkit-transform: rotate(58deg);
+            -moz-transform: rotate(58deg);
+            -ms-transform: rotate(58deg);
+            background-color: #6A6B6F;
+            position: absolute;
+            top: -8px;
+            left: 5px; }
+        #skPlayer .skPlayer-control .skPlayer-volume .skPlayer-icon::after {
+            content: '';
+            display: block;
+            width: 5px;
+            height: 6px;
+            border-width: 4px 5px;
+            border-style: solid;
+            border-color: transparent #6A6B6F transparent transparent;
+            position: absolute;
+            top: -4px;
+            left: -5px; }
+        #skPlayer .skPlayer-control .skPlayer-volume .skPlayer-percent {
+            position: absolute;
+            width: 120px;
+            height: 14px;
+            background-color: #EBEBF2;
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+            top: 0;
+            left: 0; }
+        #skPlayer .skPlayer-control .skPlayer-volume .skPlayer-line {
+            height: 100%;
+            width: 100%;
+            background-color: #D94240;
+            transition: 0.37s;
+            -webkit-transition: 0.37s;
+            -moz-transition: 0.37s; }
+        #skPlayer .skPlayer-control .skPlayer-list-switch {
+            display: block;
+            width: 16px;
+            height: 15px;
+            position: absolute;
+            right: 15px;
+            bottom: 12px;
+            cursor: pointer; }
+        #skPlayer .skPlayer-control .skPlayer-list-icon {
+            display: block;
+            width: 16px;
+            height: 3px;
+            background-color: #6A6B6F;
+            position: absolute;
+            right: 0;
+            bottom: 6px; }
+        #skPlayer .skPlayer-control .skPlayer-list-icon::before {
+            content: '';
+            display: block;
+            width: 16px;
+            height: 3px;
+            background-color: #6A6B6F;
+            position: absolute;
+            left: 0;
+            bottom: 6px; }
+        #skPlayer .skPlayer-control .skPlayer-list-icon::after {
+            content: '';
+            display: block;
+            width: 16px;
+            height: 3px;
+            background-color: #6A6B6F;
+            position: absolute;
+            left: 0;
+            bottom: -6px; }
+
+
+
+    </style>
+
+</head>
+<body>
+
+
+<audio class="skPlayer-source" src="audio/song.mp3" preload="auto"  id="bfq" ></audio>
+<div id="skPlayer">
+
+
+<div class="skPlayer-control">
+    <a href="javascript:;" class="skPlayer-play-btn">
+
+        <span id="span_play_btn"  class="glyphicon glyphicon-play"></span>
+
+    </a>
+
+    <div class="skPlayer-percent" id="skpp">
+        <div class="skPlayer-line-loading"></div>
+        <div class="skPlayer-line" id="skpp_skPlayer-line"></div>
+    </div>
+    <div class="skPlayer-time">
+        <span class="skPlayer-cur">00:30</span>/<span class="skPlayer-total">01:47</span>
+    </div>
+    <div class="skPlayer-volume">
+        <div style="position: relative;width: 100%">
+        <i class="skPlayer-icon"></i>
+        <div class="skPlayer-percent">
+            <div class="skPlayer-line"></div>
+        </div>
+            </div>
+    </div>
+
+</div>
+</div>
+
+<script>
+//SKPlayer
+
+//左距离
+function leftDistance(el) {
+    var  left = el.offset().left;
+
+
+    scrollLeft = document.body.scrollLeft + document.documentElement.scrollLeft;
+
+    return left - scrollLeft;
+}
+//时间格式化
+function timeFormat(time){
+    let tempMin = parseInt(time / 60);
+    let tempSec = parseInt(time % 60);
+    let curMin = tempMin < 10 ? ('0' + tempMin) : tempMin;
+    let curSec = tempSec < 10 ? ('0' + tempSec) : tempSec;
+    return curMin + ':' + curSec;
+}
+
+function percentFormat (percent)  {
+    return (percent * 100).toFixed(2) + '%';
+}
+
+
+
+
+
+function play(){
+
+    if($("#bfq").get(0).paused){
+        $("#bfq").get(0).play();
+     
+         $('#span_play_btn').removeClass('glyphicon-play');
+        $('#span_play_btn').addClass('glyphicon-pause');
+    }
+}
+
+function pause(){
+    if(!$("#bfq").get(0).paused){
+        $("#bfq").get(0).pause();
+        $('#span_play_btn').addClass('glyphicon-play');
+        $('#span_play_btn').removeClass('glyphicon-pause');
+    }
+}
+
+
+function updateLine(){
+    let percent =$("#bfq").get(0).buffered.length ? ($("#bfq").get(0).buffered.end($("#bfq").get(0).buffered.length - 1) / $("#bfq").get(0).duration) : 0;
+     $('.skPlayer-line-loading').css('width',percentFormat(percent));
+};
+
+
+$("#bfq").get(0).addEventListener('durationchange', function(e) {
+    $('.skPlayer-total').html(timeFormat($("#bfq").get(0).duration));
+     updateLine();
+});
+$("#bfq").get(0).addEventListener('progress', function(e){
+     updateLine();
+});
+$("#bfq").get(0).addEventListener('canplay', function(e){
+
+    play();
+});
+
+
+
+$("#bfq").get(0).addEventListener('timeupdate', function(e){
+    let percent = $("#bfq").get(0).currentTime / $("#bfq").get(0).duration;
+    $('#skpp_skPlayer-line').css("width", percentFormat(percent));
+    $('.skPlayer-cur').html(timeFormat($("#bfq").get(0).currentTime));
+});
+$("#bfq").get(0).addEventListener('seeked', function(e){
+    //alert("寻址操作完成!");
+    play();
+});
+$("#bfq").get(0).addEventListener('ended', function(e)   {
+   alert("结束")
+});
+
+$('.skPlayer-play-btn').click(function(){toggle()});
+
+
+function toggle(){
+    $("#bfq").get(0).paused ? play() : pause();
+}
+
+
+
+
+$('#skpp').on('click',function(event) {
+
+
+    var e = event || window.event;
+
+
+
+    let percent = (e.clientX -  $('#skpp').offset().left) /  $('#skpp').width();
+
+
+
+if(!isNaN($("#bfq").get(0).duration)){
+
+    $('#skpp_skPlayer-line').css('width',percentFormat(percent));
+    $('.skPlayer-time .skPlayer-cur').html(timeFormat(percent *  $("#bfq").get(0).duration));
+    $("#bfq").get(0).currentTime = percent *  $("#bfq").get(0).duration;
+}
+});
+
+
+$('.skPlayer-volume .skPlayer-percent').click(function(event){
+        let e = event || window.event;
+    let percent = (e.clientX -    $('.skPlayer-volume .skPlayer-percent').offset().left) /  $('.skPlayer-volume .skPlayer-percent').width();
+    $('.skPlayer-volume .skPlayer-line').css('width', percentFormat(percent));
+    $("#bfq").get(0).volume = percent;
+
+});
+$('.skPlayer-icon').on('click',function(){
+    if($("#bfq").get(0).muted){
+        $("#bfq").get(0).muted = false;
+        $('.skPlayer-icon').removeClass('skPlayer-quiet');
+        $('.skPlayer-volume .skPlayer-line').css('width',percentFormat( $("#bfq").get(0).volume ));
+    }else{
+        $("#bfq").get(0).muted = true;
+        $('.skPlayer-icon').addClass('skPlayer-quiet');
+        $('.skPlayer-volume .skPlayer-line').css('width','0%');
+    }
+});
+
+</script>
+</body>
+</html>
